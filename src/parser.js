@@ -428,7 +428,9 @@ var Parser = Object.extend({
 
         var node = new nodes.Extends(tag.lineno, tag.colno);
         node.template = this.parseExpression();
-
+        // from https://github.com/mozilla/nunjucks/issues/475#issuecomment-216308256  
+        node.template.value += '.njk'; // <--------- Here is crude example
+        
         this.advanceAfterBlockEnd(tag.value);
         return node;
     },
@@ -442,6 +444,8 @@ var Parser = Object.extend({
 
         var node = new nodes.Include(tag.lineno, tag.colno);
         node.template = this.parseExpression();
+        // from https://github.com/mozilla/nunjucks/issues/475#issuecomment-216308256  
+        node.template.value += '.njk'; // <--------- Here is crude example
 
         if(this.skipSymbol('ignore') && this.skipSymbol('missing')) {
             node.ignoreMissing = true;

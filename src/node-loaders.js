@@ -59,6 +59,13 @@ var FileSystemLoader = Loader.extend({
             var basePath = path.resolve(paths[i]);
             var p = path.resolve(paths[i], name);
 
+            // from https://github.com/mozilla/nunjucks/issues/475#issuecomment-216308256  
+            // Here is where magic happens
+            // We add extension only if it wasn't specified
+            if (path.extname(p) !== '.njk') {
+              p += '.njk';
+            }
+
             // Only allow the current directory and anything
             // underneath it to be searched
             if(p.indexOf(basePath) === 0 && existsSync(p)) {
